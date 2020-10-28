@@ -1,6 +1,8 @@
 from flask import Flask
-from flask import request
+from flask import request, redirect, abort, url_for
 import os
+
+from flask.json import jsonify
 
 app = Flask(__name__)
 
@@ -42,8 +44,31 @@ def login():
         return 'Please, provide credentials'
 
 
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
+    return redirect(url_for('login'))
+
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     f = request.files['file']
     f.save('{}/{}'.format(os.getcwd(), f.filename))
-    return 'Received file "{}"'.format(f.filename)
+    return 'Received file "{}", size={}'.format(f.filename, request.content_length)
+
+
+@app.route('/error')
+def error():
+    abort(401)
+
+
+@app.route('/me')
+def me_api():
+    return {
+        "username": "alex",
+        "status": "online"
+    }
+
+
+@app.route('/people')
+def people_api():
+    return jsonify(["alice", "bob", "chuck"])
