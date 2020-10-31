@@ -15,21 +15,12 @@ def is_allowed_file(filename: str):
     return any([filename.endswith('.' + x) for x in ALLOWED_EXTENSIONS])
 
 
-def method_not_allowed(method: str, allowed_methods: str):
-    response = make_response('ERROR: Method not allowed: ' + method, 405)
-    response.headers['Allow'] = allowed_methods
-    return response
-
-
 def bad_request(error: str):
     return make_response("ERROR: " + error, 400)
 
 
-@ app.route('/api/upload_log', methods=['GET', 'POST'])
+@ app.route('/api/upload_log', methods=['POST'])
 def upload_log():
-    if request.method != 'POST':
-        abort(method_not_allowed(request.method, 'POST'))
-
     if 'file' not in request.files:
         abort(bad_request('No file part'))
 
