@@ -1,7 +1,7 @@
 FROM python:3
 WORKDIR /server
 RUN pip install Flask
-COPY *.py ${PWD}
+COPY server.py $PWD
 EXPOSE 5000
-ENV FLASK_APP=hello.py
-CMD [ "flask", "run" ]
+ENV FLASK_APP=server.py
+CMD [ "flask", "run", "--host=0.0.0.0" ]

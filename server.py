@@ -4,7 +4,7 @@ from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 import os
 
-UPLOAD_DIR = os.getcwd()
+UPLOAD_DIR = os.environ.get('UPLOAD_DIR') or os.getcwd()
 ALLOWED_EXTENSIONS = ['log', 'zip', 'gz']
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def bad_request(error: str):
     return make_response("ERROR: " + error, 400)
 
 
-@ app.route('/api/upload_log', methods=['POST'])
+@app.route('/api/upload_log', methods=['POST'])
 def upload_log():
     if 'file' not in request.files:
         abort(bad_request('No file part'))
