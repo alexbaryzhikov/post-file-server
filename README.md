@@ -12,7 +12,7 @@ Content-Type: multipart/form-data
 
 CURL example:
 ```bash
-    $ curl -X POST -F "file=@test.log" localhost:5000/api/upload_log
+$ curl -X POST -F "file=@test.log" localhost:5000/api/upload_log
 ```
 
 ## Usage
